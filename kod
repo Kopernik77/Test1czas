@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EU Time Zones</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Current Date and Time in EU Countries</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Country</th>
+      <th>Time Zone</th>
+      <th>Date and Time</th>
+    </tr>
+  </thead>
+  <tbody id="timeTable">
+    <!-- Time information will be inserted here dynamically using JavaScript -->
+  </tbody>
+</table>
+
+<script>
+  // Function to get the current date and time in a specific time zone
+  function getDateTime(timeZone) {
+    const options = {
+      timeZone: timeZone,
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      hour: 'numeric',
+      minute: 'numeric',
+      second: 'numeric',
+      timeZoneName: 'short'
+    };
+    return new Intl.DateTimeFormat('en-US', options).formatToParts(new Date()).map(part => part.value).join('');
+  }
+
+  // Function to populate the table with date and time information
+  function populateTable() {
+    const euCountries = [
+      { country: 'Austria', timeZone: 'Europe/Vienna' },
+      { country: 'Belgium', timeZone: 'Europe/Brussels' },
+      // Add more countries and time zones as needed
+    ];
+
+    const tableBody = document.getElementById('timeTable');
+
+    euCountries.forEach(country => {
+      const row = tableBody.insertRow();
+      const cellCountry = row.insertCell(0);
+      const cellTimeZone = row.insertCell(1);
+      const cellDateTime = row.insertCell(2);
+
+      cellCountry.textContent = country.country;
+      cellTimeZone.textContent = country.timeZone;
+      cellDateTime.textContent = getDateTime(country.timeZone);
+    });
+  }
+
+  // Call the function to populate the table on page load
+  populateTable();
+</script>
+
+</body>
+</html>
